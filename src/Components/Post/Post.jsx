@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 export function Post({ author, publishedAt, content }) {
 
-    const [comment, setComment] = useState([
+    const [comments, setComment] = useState([
         "Post muito bacana"
     ]);
 
@@ -27,7 +27,7 @@ export function Post({ author, publishedAt, content }) {
     function handleNewCreatedComment() {
         event.preventDefault();
         //copiando os valores ja existentes no array e adicionando mais 1
-        setComment([...comment, newCommentText]);
+        setComment([...comments, newCommentText]);
         setNewCommentText('');
     }
 
@@ -36,8 +36,12 @@ export function Post({ author, publishedAt, content }) {
 
     }
 
-    function deleteComment(comment) {
-        console.log(`Deletar ${comment}`);
+    function deleteComment(commentToDelete) {
+        const commentsDeleted = comments.filter(comment =>{
+            return comment != commentToDelete
+        })
+        setComment(commentsDeleted);
+        
     }
 
 
@@ -78,11 +82,11 @@ export function Post({ author, publishedAt, content }) {
             </form>
 
             <div className={styles.commentList}>
-                {comment.map(comment => {
+                {comments.map(comment => {
                     return (
                         <Comment
                             key={comment}
-                            content={comment}
+                            content={comments}
                             deleteComment={deleteComment} />
                     )
                 })}
